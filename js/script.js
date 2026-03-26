@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   // Randomize hero preview card images — 3 left, 3 right
-  const allImages = ['glass.png', 'left.png', 'emoji.png', 'right.png', 'text.png', 'blank.png'];
+  const allImages = ['public/glass.png', 'public/left.png', 'public/emoji.png', 'public/right.png', 'public/text.png', 'public/blank.png'];
   const shuffled = allImages.sort(() => Math.random() - 0.5);
   const previewCards = document.querySelectorAll('.preview-card');
   previewCards.forEach((card, i) => {

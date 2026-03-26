@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign In — Foldi</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="logo-small.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../public/logo-small.png">
   <style>
     .auth-page {
       min-height: 100vh;
@@ -233,8 +233,8 @@
   <!-- Nav -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="logo.png" alt="Foldi" class="nav-icon">
+      <a href="../index.html" class="nav-logo">
+        <img src="../public/logo.png" alt="Foldi" class="nav-icon">
         <span class="nav-wordmark">Foldi</span>
       </a>
       <div class="nav-links" id="nav-auth">
@@ -246,7 +246,7 @@
   <main class="auth-page">
     <div class="auth-card">
       <div class="auth-logo">
-        <img src="logo.png" alt="Foldi">
+        <img src="../public/logo.png" alt="Foldi">
         <span>Foldi</span>
       </div>
 
@@ -319,7 +319,7 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-client.js"></script>
+  <script src="../js/supabase-client.js"></script>
   <script>
     // ── Tab init ────────────────────────────────────────────────────────────
     const params = new URLSearchParams(location.search);
@@ -436,7 +436,7 @@
         password,
         options: {
           data: { username },
-          emailRedirectTo: window.location.origin + '/auth.html?confirmed=1'
+          emailRedirectTo: window.location.origin + '/html/auth.html?confirmed=1'
         }
       });
       setLoading(suBtn, false);

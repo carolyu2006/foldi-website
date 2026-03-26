@@ -36,7 +36,7 @@ async function initNavAuth() {
   if (session) {
     const name = authorName(session.user);
     el.innerHTML = `
-      <a href="publish.html" class="nav-cta">Publish Design</a>
+      <a href="/html/publish.html" class="nav-cta">Publish Design</a>
       <div class="nav-avatar" id="nav-avatar-btn" title="${name}">
         ${name.charAt(0).toUpperCase()}
       </div>
@@ -60,21 +60,44 @@ async function initNavAuth() {
     });
   } else {
     el.innerHTML = `
-      <a href="auth.html" class="nav-link-subtle">Log In</a>
-      <a href="auth.html?tab=signup" class="nav-cta">Sign Up</a>
+      <a href="/html/auth.html" class="nav-link-subtle">Log In</a>
+      <a href="/html/auth.html?tab=signup" class="nav-cta">Sign Up</a>
     `;
   }
 }
 
 // ── Marketplace fetcher ────────────────────────────────────────────────────
 
-async function fetchAllPacks() {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/icon_packs?select=*&order=name`,
-    { headers: { apikey: SUPABASE_ANON, Authorization: `Bearer ${SUPABASE_ANON}` } }
-  );
+// approvedOnly=true for public marketplace; pass false + serviceKey for admin
+async function fetchAllPacks({ approvedOnly = true, serviceKey = null } = {}) {
+  let url = `${SUPABASE_URL}/rest/v1/icon_packs?select=*&order=name`;
+  if (approvedOnly) url += '&status=eq.approved';
+
+  const token = serviceKey || SUPABASE_ANON;
+  const res = await fetch(url, {
+    headers: { apikey: serviceKey || SUPABASE_ANON, Authorization: `Bearer ${token}` }
+  });
   if (!res.ok) throw new Error(await res.text());
   return res.json();
+}
+
+// ── Admin: update pack status ──────────────────────────────────────────────
+
+async function updatePackStatus(packId, status, serviceKey) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/icon_packs?id=eq.${encodeURIComponent(packId)}`,
+    {
+      method: 'PATCH',
+      headers: {
+        apikey: serviceKey,
+        Authorization: `Bearer ${serviceKey}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify({ status })
+    }
+  );
+  if (!res.ok) throw new Error(await res.text());
 }
 
 function iconPublicURL(path) {

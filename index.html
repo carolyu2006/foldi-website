@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Foldi — Beautiful Folder Icons for macOS</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="logo-small.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="public/logo-small.png">
 </head>
 <body>
 
@@ -13,12 +13,12 @@
   <nav class="nav">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
-        <img src="logo.png" alt="Foldi" class="nav-icon">
+        <img src="public/logo.png" alt="Foldi" class="nav-icon">
         <span class="nav-wordmark">Foldi</span>
       </a>
       <div class="nav-links" style="position:relative">
         <a href="#features">Features</a>
-        <a href="marketplace.html">Marketplace</a>
+        <a href="html/marketplace.html">Marketplace</a>
         <div id="nav-auth" style="display:contents"></div>
         <a href="#download" class="nav-cta">Download</a>
       </div>
@@ -354,18 +354,19 @@
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-logo">
-        <img src="logo.png" alt="Foldi" style="width: 24px; height: 24px;"> Foldi
+        <img src="public/logo.png" alt="Foldi" style="width: 24px; height: 24px;"> Foldi
       </div>
       <p class="footer-copy">© 2026 Foldi. All rights reserved.</p>
       <div class="footer-links">
+        <a href="html/marketplace.html">Marketplace</a>
         <a href="https://github.com/carolyu2006/foldi">GitHub</a>
       </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-client.js"></script>
-  <script src="script.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/script.js"></script>
   <script>
     // Add nav avatar / dropdown styles to index page
     document.head.insertAdjacentHTML('beforeend', `<style>

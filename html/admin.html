@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Foldi</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../public/logo-small.png">
+  <style>
+    .admin-page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 96px 40px 80px;
+    }
+
+    .admin-header {
+      margin-bottom: 32px;
+    }
+
+    .admin-header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .admin-header p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* ── Key gate ─────────────────────────────── */
+    .key-gate {
+      background: white;
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      text-align: center;
+      border: 1px solid rgba(0,0,0,0.06);
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .key-gate h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .key-gate p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .key-input {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      font-size: 0.9rem;
+      font-family: var(--font);
+      margin-bottom: 12px;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .key-input:focus { border-color: #942A2A; }
+
+    .key-error {
+      font-size: 0.82rem;
+      color: #B91C1C;
+      margin-bottom: 10px;
+      min-height: 18px;
+    }
+
+    /* ── Filter tabs ──────────────────────────── */
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      background: white;
+      color: var(--text-secondary);
+      transition: all 0.15s;
+    }
+
+    .filter-btn.active {
+      background: var(--text);
+      color: white;
+      border-color: var(--text);
+    }
+
+    .filter-btn:hover:not(.active) {
+      border-color: rgba(0,0,0,0.22);
+      color: var(--text);
+    }
+
+    .refresh-btn {
+      margin-left: auto;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      background: white;
+      color: var(--text-secondary);
+      transition: all 0.15s;
+    }
+
+    .refresh-btn:hover { border-color: rgba(0,0,0,0.22); color: var(--text); }
+
+    /* ── Pack list ────────────────────────────── */
+    .pack-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pack-card {
+      background: white;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .pack-thumbs {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .pack-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: rgba(0,0,0,0.05);
+    }
+
+    .pack-thumb-placeholder {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.05);
+    }
+
+    .pack-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pack-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .pack-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    .status-badge.pending  { background: #FFF7ED; color: #C2410C; border: 1px solid rgba(194,65,12,0.15); }
+    .status-badge.approved { background: #F0FDF4; color: #166534; border: 1px solid rgba(22,101,52,0.15); }
+    .status-badge.rejected { background: #FEF2F2; color: #B91C1C; border: 1px solid rgba(185,28,28,0.15); }
+
+    .pack-meta {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .pack-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: 5px;
+    }
+
+    .pack-tag {
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      background: rgba(0,0,0,0.05);
+      border-radius: 4px;
+      color: var(--text-secondary);
+    }
+
+    .pack-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .action-btn {
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s;
+    }
+
+    .action-btn:disabled { opacity: 0.4; cursor: default; }
+
+    .btn-approve {
+      background: #166534;
+      color: white;
+    }
+
+    .btn-approve:hover:not(:disabled) { opacity: 0.85; }
+
+    .btn-reject {
+      background: #FEF2F2;
+      color: #B91C1C;
+      border: 1px solid rgba(185,28,28,0.15);
+    }
+
+    .btn-reject:hover:not(:disabled) { background: #FEE2E2; }
+
+    /* ── Empty / loading states ───────────────── */
+    .state-message {
+      text-align: center;
+      padding: 48px 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .state-message .state-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    /* ── Toast ────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      transform: translateY(60px);
+      opacity: 0;
+      transition: all 0.25s var(--ease);
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.error { background: #B91C1C; }
+
+    @media (max-width: 640px) {
+      .admin-page { padding: 88px 16px 60px; }
+      .pack-card { flex-wrap: wrap; }
+      .pack-actions { width: 100%; justify-content: flex-end; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">
+        <img src="../public/logo.png" alt="Foldi" class="nav-icon">
+        <span class="nav-wordmark">Foldi</span>
+      </a>
+      <div class="nav-links">
+        <a href="marketplace.html" class="nav-link-subtle" style="font-size:0.85rem;color:var(--text-secondary)">Marketplace</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="admin-page">
+    <div class="admin-header">
+      <p class="section-label">🛡 Admin</p>
+      <h1>Moderation Queue</h1>
+      <p>Review and approve or reject submitted icon packs.</p>
+    </div>
+
+    <!-- Service key gate -->
+    <div id="key-gate" class="key-gate">
+      <h2>Admin Access</h2>
+      <p>Enter your Supabase service role key to access the moderation panel.<br>
+         Find it in your Supabase project under Settings → API.</p>
+      <input class="key-input" type="password" id="key-input"
+             placeholder="service_role key" autocomplete="off">
+      <div class="key-error" id="key-error"></div>
+      <button class="btn btn-primary" id="key-submit" style="width:100%">Unlock</button>
+    </div>
+
+    <!-- Admin panel (shown after key verified) -->
+    <div id="admin-panel" style="display:none">
+      <div class="filter-row">
+        <button class="filter-btn active" data-status="pending">Pending</button>
+        <button class="filter-btn" data-status="all">All</button>
+        <button class="filter-btn" data-status="approved">Approved</button>
+        <button class="filter-btn" data-status="rejected">Rejected</button>
+        <button class="refresh-btn" id="refresh-btn">Refresh</button>
+      </div>
+
+      <div id="pack-list" class="pack-list"></div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script>
+    let serviceKey = sessionStorage.getItem('foldi_admin_key') || '';
+    let currentFilter = 'pending';
+    let allPacks = [];
+
+    // ── Key gate ────────────────────────────────────────────────────────────
+    if (serviceKey) {
+      unlockPanel();
+    }
+
+    document.getElementById('key-submit').addEventListener('click', () => {
+      const val = document.getElementById('key-input').value.trim();
+      if (!val) {
+        document.getElementById('key-error').textContent = 'Please enter the service role key.';
+        return;
+      }
+      serviceKey = val;
+      sessionStorage.setItem('foldi_admin_key', serviceKey);
+      unlockPanel();
+    });
+
+    document.getElementById('key-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('key-submit').click();
+    });
+
+    async function unlockPanel() {
+      document.getElementById('key-error').textContent = '';
+      try {
+        // Verify key works by fetching all packs
+        allPacks = await fetchAllPacks({ approvedOnly: false, serviceKey });
+        document.getElementById('key-gate').style.display = 'none';
+        document.getElementById('admin-panel').style.display = '';
+        renderList();
+      } catch (e) {
+        serviceKey = '';
+        sessionStorage.removeItem('foldi_admin_key');
+        document.getElementById('key-error').textContent =
+          'Invalid key or network error. Check the key and try again.';
+      }
+    }
+
+    // ── Filters ─────────────────────────────────────────────────────────────
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.status;
+        renderList();
+      });
+    });
+
+    document.getElementById('refresh-btn').addEventListener('click', async () => {
+      try {
+        allPacks = await fetchAllPacks({ approvedOnly: false, serviceKey });
+        renderList();
+        showToast('Refreshed');
+      } catch (e) {
+        showToast('Refresh failed: ' + e.message, true);
+      }
+    });
+
+    // ── Render ───────────────────────────────────────────────────────────────
+    function renderList() {
+      const list = document.getElementById('pack-list');
+      const filtered = currentFilter === 'all'
+        ? allPacks
+        : allPacks.filter(p => p.status === currentFilter);
+
+      if (filtered.length === 0) {
+        list.innerHTML = `
+          <div class="state-message">
+            <div class="state-icon">📭</div>
+            <div>No ${currentFilter === 'all' ? '' : currentFilter + ' '}packs found.</div>
+          </div>`;
+        return;
+      }
+
+      list.innerHTML = '';
+      filtered.forEach(pack => {
+        const card = buildCard(pack);
+        list.appendChild(card);
+      });
+    }
+
+    function buildCard(pack) {
+      const card = document.createElement('div');
+      card.className = 'pack-card';
+      card.id = `pack-${pack.id}`;
+
+      // Thumbnails (up to 3)
+      const thumbs = (pack.icons || []).slice(0, 3).map(path => {
+        const url = iconPublicURL(path);
+        return `<img class="pack-thumb" src="${escHtml(url)}" alt="" loading="lazy"
+                     onerror="this.style.display='none'">`;
+      });
+      while (thumbs.length < 3) {
+        thumbs.push(`<div class="pack-thumb-placeholder"></div>`);
+      }
+
+      const tags = (pack.tags || []).map(t =>
+        `<span class="pack-tag">#${escHtml(t)}</span>`
+      ).join('');
+
+      const isPending  = pack.status === 'pending';
+      const isApproved = pack.status === 'approved';
+      const isRejected = pack.status === 'rejected';
+
+      card.innerHTML = `
+        <div class="pack-thumbs">${thumbs.join('')}</div>
+        <div class="pack-info">
+          <div class="pack-title-row">
+            <div class="pack-name">${escHtml(pack.name)}</div>
+            <span class="status-badge ${escHtml(pack.status)}">${escHtml(pack.status)}</span>
+          </div>
+          <div class="pack-meta">by ${escHtml(pack.author)} &middot; ${pack.icons?.length ?? 0} icons</div>
+          ${tags ? `<div class="pack-tags">${tags}</div>` : ''}
+        </div>
+        <div class="pack-actions">
+          <button class="action-btn btn-approve" data-id="${escHtml(String(pack.id))}"
+                  ${isApproved ? 'disabled' : ''}>Approve</button>
+          <button class="action-btn btn-reject"  data-id="${escHtml(String(pack.id))}"
+                  ${isRejected ? 'disabled' : ''}>Reject</button>
+        </div>`;
+
+      card.querySelector('.btn-approve').addEventListener('click', () => setStatus(pack.id, 'approved', card));
+      card.querySelector('.btn-reject').addEventListener('click', () => setStatus(pack.id, 'rejected', card));
+
+      return card;
+    }
+
+    // ── Status update ────────────────────────────────────────────────────────
+    async function setStatus(packId, status, card) {
+      const btns = card.querySelectorAll('.action-btn');
+      btns.forEach(b => b.disabled = true);
+
+      try {
+        await updatePackStatus(packId, status, serviceKey);
+
+        // Update local state
+        const pack = allPacks.find(p => p.id === packId);
+        if (pack) pack.status = status;
+
+        // Update badge in-place
+        const badge = card.querySelector('.status-badge');
+        badge.className = `status-badge ${status}`;
+        badge.textContent = status;
+
+        // Re-enable correct button
+        const approveBtn = card.querySelector('.btn-approve');
+        const rejectBtn  = card.querySelector('.btn-reject');
+        approveBtn.disabled = status === 'approved';
+        rejectBtn.disabled  = status === 'rejected';
+
+        showToast(status === 'approved' ? 'Pack approved ✓' : 'Pack rejected');
+      } catch (e) {
+        btns.forEach(b => b.disabled = false);
+        showToast('Error: ' + e.message, true);
+      }
+    }
+
+    // ── Toast ────────────────────────────────────────────────────────────────
+    let toastTimer;
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.className = 'toast show' + (isError ? ' error' : '');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.className = 'toast';
+      }, 2800);
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>

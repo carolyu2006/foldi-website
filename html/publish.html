@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Publish Design — Foldi</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="logo-small.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../public/logo-small.png">
   <style>
     .publish-page {
       max-width: 680px;
@@ -429,8 +429,8 @@
   <!-- Nav -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="logo.png" alt="Foldi" class="nav-icon">
+      <a href="../index.html" class="nav-logo">
+        <img src="../public/logo.png" alt="Foldi" class="nav-icon">
         <span class="nav-wordmark">Foldi</span>
       </a>
       <div class="nav-links">
@@ -476,9 +476,10 @@
               <input class="form-input" type="text" id="pack-name" placeholder="e.g. Minimal Glass Icons">
             </div>
             <div class="form-group">
-              <label class="form-label" for="pack-author">Author Name *</label>
-              <input class="form-input" type="text" id="pack-author" placeholder="Your name">
-              <p class="form-hint">Should match what you use in the Foldi app.</p>
+              <label class="form-label" for="pack-author">Author Name</label>
+              <input class="form-input" type="text" id="pack-author" readonly
+                     style="background:rgba(0,0,0,0.03);cursor:default;">
+              <p class="form-hint">Set from your account username.</p>
             </div>
           </div>
           <div class="form-group">
@@ -500,20 +501,6 @@
           <div id="file-preview" style="display:none">
             <div class="file-preview-grid" id="preview-grid"></div>
             <p class="file-count-badge" id="file-count"></p>
-          </div>
-        </div>
-
-        <!-- Access key -->
-        <div class="form-section">
-          <div class="form-section-title">Access</div>
-          <div class="form-group">
-            <label class="form-label" for="service-key">Designer API Key *</label>
-            <input class="form-input" type="password" id="service-key" placeholder="Your Supabase service role key"
-                   autocomplete="off">
-            <p class="form-hint">
-              Required to write to the marketplace. Get this from your Supabase project →
-              Settings → API → service_role key. Keep it secret.
-            </p>
           </div>
         </div>
 
@@ -540,18 +527,18 @@
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-logo">
-        <img src="logo.png" alt="Foldi" style="width:24px;height:24px;"> Foldi
+        <img src="../public/logo.png" alt="Foldi" style="width:24px;height:24px;"> Foldi
       </div>
       <p class="footer-copy">© 2026 Foldi. All rights reserved.</p>
       <div class="footer-links">
-        <a href="index.html">Home</a>
+        <a href="../index.html">Home</a>
         <a href="marketplace.html">Marketplace</a>
       </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-client.js"></script>
+  <script src="../js/supabase-client.js"></script>
   <script>
     let selectedFiles = [];
 
@@ -675,15 +662,22 @@
     publishBtn.addEventListener('click', async () => {
       clearAlert();
 
-      const name       = document.getElementById('pack-name').value.trim();
-      const author     = document.getElementById('pack-author').value.trim();
-      const tagsRaw    = document.getElementById('pack-tags').value;
-      const serviceKey = document.getElementById('service-key').value.trim();
+      const name    = document.getElementById('pack-name').value.trim();
+      const author  = document.getElementById('pack-author').value.trim();
+      const tagsRaw = document.getElementById('pack-tags').value;
 
-      if (!name)       { showAlert('Pack name is required.'); return; }
-      if (!author)     { showAlert('Author name is required.'); return; }
-      if (!serviceKey) { showAlert('Designer API key is required to publish.'); return; }
+      if (!name)   { showAlert('Pack name is required.'); return; }
       if (selectedFiles.length === 0) { showAlert('Please select at least one PNG file.'); return; }
+
+      // Get current session JWT
+      const session = await getSession();
+      if (!session) {
+        showAlert('Your session has expired. Please sign in again.');
+        window.location.href = 'auth.html?tab=signin&redirect=publish.html';
+        return;
+      }
+      const accessToken = session.access_token;
+      const userId      = session.user.id;
 
       const tags = tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
       const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
@@ -703,7 +697,7 @@
         const file = selectedFiles[i];
         progressLabel.textContent = `Uploading ${file.name}…`;
 
-        const storagePath = `${slug}/${file.name}`;
+        const storagePath = `${userId}/${slug}/${file.name}`;
 
         try {
           const res = await fetch(
@@ -711,8 +705,8 @@
             {
               method: 'POST',
               headers: {
-                apikey: serviceKey,
-                Authorization: `Bearer ${serviceKey}`,
+                apikey: SUPABASE_ANON,
+                Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'image/png',
               },
               body: await file.arrayBuffer(),
@@ -734,7 +728,7 @@
         progressFill.style.width = `${Math.round(((i + 1) / total) * 85)}%`;
       }
 
-      // Insert pack metadata
+      // Insert pack metadata (status defaults to 'pending' via DB default)
       progressLabel.textContent = 'Saving pack info…';
       try {
         const res = await fetch(
@@ -742,12 +736,19 @@
           {
             method: 'POST',
             headers: {
-              apikey: serviceKey,
-              Authorization: `Bearer ${serviceKey}`,
+              apikey: SUPABASE_ANON,
+              Authorization: `Bearer ${accessToken}`,
               'Content-Type': 'application/json',
               Prefer: 'return=minimal',
             },
-            body: JSON.stringify({ name, author, tags, icons: uploadedPaths }),
+            body: JSON.stringify({
+              name,
+              author,
+              tags,
+              icons: uploadedPaths,
+              user_id: userId,
+              status: 'pending',
+            }),
           }
         );
         if (!res.ok) {
@@ -765,8 +766,8 @@
       progressFill.style.width = '100%';
       progressLabel.textContent = 'Done!';
 
-      showAlert(`✅ "${name}" published successfully! It will appear in the marketplace shortly.`, 'success');
-      publishBtn.innerHTML = '✓ Published';
+      showAlert(`Your pack "${name}" has been submitted for review. It will appear in the marketplace once approved.`, 'success');
+      publishBtn.innerHTML = '✓ Submitted';
 
       // Clear form
       selectedFiles = [];
