@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publish Design — Foldi</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="logo-small.png">
+  <style>
+    .publish-page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 96px 40px 80px;
+    }
+
+    .publish-header {
+      margin-bottom: 36px;
+    }
+
+    .publish-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .publish-header p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    /* ── Auth gate ───────────────────────────────── */
+    .auth-gate {
+      background: white;
+      border-radius: var(--radius);
+      padding: 56px 40px;
+      text-align: center;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .auth-gate-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+
+    .auth-gate h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .auth-gate p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* ── Form card ───────────────────────────────── */
+    .publish-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 36px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .form-section {
+      margin-bottom: 28px;
+    }
+
+    .form-section-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 0.5px solid rgba(0,0,0,0.06);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group:last-child { margin-bottom: 0; }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      font-size: 0.92rem;
+      font-family: var(--font);
+      color: var(--text);
+      background: white;
+      transition: border-color 0.18s;
+      outline: none;
+    }
+
+    .form-input:focus { border-color: #942A2A; }
+    .form-input::placeholder { color: #C7C7CC; }
+
+    .form-hint {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    /* ── Drop zone ───────────────────────────────── */
+    .drop-zone {
+      border: 2px dashed rgba(0,0,0,0.12);
+      border-radius: var(--radius-sm);
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.18s var(--ease);
+      background: rgba(0,0,0,0.015);
+      position: relative;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.drag-over {
+      border-color: #942A2A;
+      background: rgba(148, 42, 42, 0.03);
+    }
+
+    .drop-zone input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .drop-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .drop-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .drop-sub {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    /* ── File preview grid ───────────────────────── */
+    .file-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .file-preview-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .file-preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .file-preview-remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 18px;
+      height: 18px;
+      background: rgba(0,0,0,0.55);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .file-preview-item:hover .file-preview-remove {
+      opacity: 1;
+    }
+
+    .file-count-badge {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    /* ── Progress ────────────────────────────────── */
+    .upload-progress {
+      margin-top: 20px;
+    }
+
+    .progress-bar-wrap {
+      height: 6px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #942A2A, #B65A5D);
+      border-radius: 3px;
+      transition: width 0.3s var(--ease);
+    }
+
+    .progress-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* ── Alert / status ──────────────────────────── */
+    .form-alert {
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      line-height: 1.45;
+      display: none;
+    }
+
+    .form-alert.error {
+      background: #FEF2F2;
+      color: #B91C1C;
+      border: 1px solid rgba(185, 28, 28, 0.15);
+      display: block;
+    }
+
+    .form-alert.success {
+      background: #F0FDF4;
+      color: #166534;
+      border: 1px solid rgba(22, 101, 52, 0.15);
+      display: block;
+    }
+
+    /* ── Submit button ───────────────────────────── */
+    .publish-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 0.5px solid rgba(0,0,0,0.06);
+    }
+
+    .btn-cancel {
+      padding: 11px 22px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      background: white;
+      color: var(--text-secondary);
+      transition: all 0.15s;
+    }
+
+    .btn-cancel:hover {
+      border-color: rgba(0,0,0,0.22);
+      color: var(--text);
+    }
+
+    .btn-publish {
+      padding: 11px 26px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      border: none;
+      background: var(--text);
+      color: white;
+      transition: opacity 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-publish:hover { opacity: 0.85; }
+    .btn-publish:disabled { opacity: 0.4; cursor: default; }
+
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── User info bar ───────────────────────────── */
+    .user-info-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.03);
+      border-radius: var(--radius-xs);
+      margin-bottom: 28px;
+      font-size: 0.88rem;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--text);
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .user-info-name { font-weight: 600; }
+    .user-info-email { font-size: 0.78rem; color: var(--text-secondary); }
+
+    .user-info-right {
+      margin-left: auto;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+
+    .user-info-right a { color: #942A2A; }
+
+    /* ── Nav ─────────────────────────────────────── */
+    .nav-link-subtle {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: color 0.2s;
+    }
+    .nav-link-subtle:hover { color: var(--text); }
+
+    .nav-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--text);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .nav-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+      min-width: 200px;
+      box-shadow: 0 8px 32px -4px rgba(0,0,0,0.15), 0 0 0 0.5px rgba(0,0,0,0.06);
+      z-index: 200;
+      display: none;
+    }
+
+    .nav-dropdown.open { display: block; }
+    .nav-dropdown-name { font-size: 0.88rem; font-weight: 600; }
+    .nav-dropdown-email { font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px; }
+
+    .nav-dropdown-item {
+      width: 100%;
+      text-align: left;
+      padding: 7px 4px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font);
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+
+    .nav-dropdown-item:hover { background: rgba(0,0,0,0.04); color: var(--text); }
+    .nav-links { position: relative; }
+
+    @media (max-width: 640px) {
+      .publish-page { padding: 88px 20px 60px; }
+      .form-row { grid-template-columns: 1fr; }
+      .publish-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="logo.png" alt="Foldi" class="nav-icon">
+        <span class="nav-wordmark">Foldi</span>
+      </a>
+      <div class="nav-links">
+        <a href="marketplace.html" class="nav-link-subtle">Marketplace</a>
+        <div id="nav-auth" style="display:contents"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="publish-page">
+    <div class="publish-header">
+      <p class="section-label">🎨 Designer Portal</p>
+      <h1>Publish a Design Pack</h1>
+      <p>Upload your icon pack to the Foldi marketplace and share it with the community.</p>
+    </div>
+
+    <!-- Auth gate (shown when not logged in) -->
+    <div class="auth-gate" id="auth-gate">
+      <div class="auth-gate-icon">🔒</div>
+      <h2>Sign in to publish</h2>
+      <p>You need a Foldi account to publish icon packs.<br>It's free and takes less than a minute.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <a href="auth.html?tab=signin&redirect=publish.html" class="btn btn-ghost">Sign In</a>
+        <a href="auth.html?tab=signup&redirect=publish.html" class="btn btn-primary">Create Free Account</a>
+      </div>
+    </div>
+
+    <!-- Publish form (shown when logged in) -->
+    <div id="publish-form-wrap" style="display:none">
+
+      <!-- User info bar -->
+      <div class="user-info-bar" id="user-info-bar"></div>
+
+      <div class="publish-card">
+        <div id="form-alert"></div>
+
+        <!-- Pack info -->
+        <div class="form-section">
+          <div class="form-section-title">Pack Info</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="pack-name">Pack Name *</label>
+              <input class="form-input" type="text" id="pack-name" placeholder="e.g. Minimal Glass Icons">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pack-author">Author Name *</label>
+              <input class="form-input" type="text" id="pack-author" placeholder="Your name">
+              <p class="form-hint">Should match what you use in the Foldi app.</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pack-tags">Tags</label>
+            <input class="form-input" type="text" id="pack-tags" placeholder="minimal, glass, dark  (comma-separated)">
+            <p class="form-hint">Tags help people discover your pack.</p>
+          </div>
+        </div>
+
+        <!-- File upload -->
+        <div class="form-section">
+          <div class="form-section-title">Icons (PNG files)</div>
+          <div class="drop-zone" id="drop-zone">
+            <input type="file" id="file-input" accept="image/png" multiple>
+            <div class="drop-icon">🖼️</div>
+            <div class="drop-title">Drop PNG files here</div>
+            <div class="drop-sub">or click to browse — 512×512 px recommended</div>
+          </div>
+          <div id="file-preview" style="display:none">
+            <div class="file-preview-grid" id="preview-grid"></div>
+            <p class="file-count-badge" id="file-count"></p>
+          </div>
+        </div>
+
+        <!-- Access key -->
+        <div class="form-section">
+          <div class="form-section-title">Access</div>
+          <div class="form-group">
+            <label class="form-label" for="service-key">Designer API Key *</label>
+            <input class="form-input" type="password" id="service-key" placeholder="Your Supabase service role key"
+                   autocomplete="off">
+            <p class="form-hint">
+              Required to write to the marketplace. Get this from your Supabase project →
+              Settings → API → service_role key. Keep it secret.
+            </p>
+          </div>
+        </div>
+
+        <!-- Upload progress -->
+        <div class="upload-progress" id="upload-progress" style="display:none">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+          </div>
+          <p class="progress-label" id="progress-label">Starting upload…</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="publish-actions">
+          <button class="btn-cancel" onclick="history.back()">Cancel</button>
+          <button class="btn-publish" id="publish-btn">
+            Publish Pack
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="logo.png" alt="Foldi" style="width:24px;height:24px;"> Foldi
+      </div>
+      <p class="footer-copy">© 2026 Foldi. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="marketplace.html">Marketplace</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+  <script>
+    let selectedFiles = [];
+
+    // ── Auth check ──────────────────────────────────────────────────────────
+    async function initPage() {
+      const session = await getSession();
+
+      if (!session) {
+        document.getElementById('auth-gate').style.display = '';
+        document.getElementById('publish-form-wrap').style.display = 'none';
+      } else {
+        document.getElementById('auth-gate').style.display = 'none';
+        document.getElementById('publish-form-wrap').style.display = '';
+
+        const user = session.user;
+        const name = authorName(user);
+
+        // User info bar
+        document.getElementById('user-info-bar').innerHTML = `
+          <div class="user-avatar">${name.charAt(0).toUpperCase()}</div>
+          <div>
+            <div class="user-info-name">${escHtml(name)}</div>
+            <div class="user-info-email">${escHtml(user.email)}</div>
+          </div>
+          <div class="user-info-right">
+            Not you? <a href="#" id="signout-link">Sign out</a>
+          </div>`;
+
+        document.getElementById('signout-link')?.addEventListener('click', async (e) => {
+          e.preventDefault();
+          await sb.auth.signOut();
+          window.location.reload();
+        });
+
+        // Pre-fill author
+        document.getElementById('pack-author').value = name;
+      }
+
+      initNavAuth();
+    }
+
+    // ── Drop zone ───────────────────────────────────────────────────────────
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+
+    dropZone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
+    });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      handleFiles([...e.dataTransfer.files].filter(f => f.type === 'image/png'));
+    });
+    fileInput.addEventListener('change', () => {
+      handleFiles([...fileInput.files]);
+      fileInput.value = ''; // allow re-selecting same files
+    });
+
+    function handleFiles(newFiles) {
+      selectedFiles = [...selectedFiles, ...newFiles];
+      renderPreviews();
+    }
+
+    function renderPreviews() {
+      const grid = document.getElementById('preview-grid');
+      const wrap = document.getElementById('file-preview');
+      const countEl = document.getElementById('file-count');
+
+      if (selectedFiles.length === 0) {
+        wrap.style.display = 'none';
+        return;
+      }
+
+      wrap.style.display = '';
+      countEl.textContent = `${selectedFiles.length} file${selectedFiles.length !== 1 ? 's' : ''} selected`;
+      grid.innerHTML = '';
+
+      selectedFiles.forEach((file, i) => {
+        const item = document.createElement('div');
+        item.className = 'file-preview-item';
+
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.onload = () => URL.revokeObjectURL(img.src);
+
+        const remove = document.createElement('div');
+        remove.className = 'file-preview-remove';
+        remove.textContent = '✕';
+        remove.addEventListener('click', () => {
+          selectedFiles.splice(i, 1);
+          renderPreviews();
+        });
+
+        item.appendChild(img);
+        item.appendChild(remove);
+        grid.appendChild(item);
+      });
+    }
+
+    // ── Alert ───────────────────────────────────────────────────────────────
+    function showAlert(msg, type = 'error') {
+      const el = document.getElementById('form-alert');
+      el.className = `form-alert ${type}`;
+      el.textContent = msg;
+      el.style.display = 'block';
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function clearAlert() {
+      const el = document.getElementById('form-alert');
+      el.className = 'form-alert';
+      el.style.display = 'none';
+    }
+
+    // ── Upload ──────────────────────────────────────────────────────────────
+    const publishBtn = document.getElementById('publish-btn');
+    publishBtn._label = 'Publish Pack';
+
+    publishBtn.addEventListener('click', async () => {
+      clearAlert();
+
+      const name       = document.getElementById('pack-name').value.trim();
+      const author     = document.getElementById('pack-author').value.trim();
+      const tagsRaw    = document.getElementById('pack-tags').value;
+      const serviceKey = document.getElementById('service-key').value.trim();
+
+      if (!name)       { showAlert('Pack name is required.'); return; }
+      if (!author)     { showAlert('Author name is required.'); return; }
+      if (!serviceKey) { showAlert('Designer API key is required to publish.'); return; }
+      if (selectedFiles.length === 0) { showAlert('Please select at least one PNG file.'); return; }
+
+      const tags = tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
+      const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+
+      // Lock UI
+      publishBtn.disabled = true;
+      publishBtn.innerHTML = '<div class="spinner"></div> Uploading…';
+      const progress = document.getElementById('upload-progress');
+      const progressFill = document.getElementById('progress-fill');
+      const progressLabel = document.getElementById('progress-label');
+      progress.style.display = '';
+
+      const uploadedPaths = [];
+      const total = selectedFiles.length;
+
+      for (let i = 0; i < total; i++) {
+        const file = selectedFiles[i];
+        progressLabel.textContent = `Uploading ${file.name}…`;
+
+        const storagePath = `${slug}/${file.name}`;
+
+        try {
+          const res = await fetch(
+            `${SUPABASE_URL}/storage/v1/object/${STORAGE_BUCKET}/${storagePath}`,
+            {
+              method: 'POST',
+              headers: {
+                apikey: serviceKey,
+                Authorization: `Bearer ${serviceKey}`,
+                'Content-Type': 'image/png',
+              },
+              body: await file.arrayBuffer(),
+            }
+          );
+          if (!res.ok) {
+            const text = await res.text();
+            throw new Error(`Upload failed for ${file.name}: ${text}`);
+          }
+          uploadedPaths.push(storagePath);
+        } catch (e) {
+          showAlert(e.message);
+          publishBtn.disabled = false;
+          publishBtn.innerHTML = publishBtn._label;
+          progress.style.display = 'none';
+          return;
+        }
+
+        progressFill.style.width = `${Math.round(((i + 1) / total) * 85)}%`;
+      }
+
+      // Insert pack metadata
+      progressLabel.textContent = 'Saving pack info…';
+      try {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/icon_packs`,
+          {
+            method: 'POST',
+            headers: {
+              apikey: serviceKey,
+              Authorization: `Bearer ${serviceKey}`,
+              'Content-Type': 'application/json',
+              Prefer: 'return=minimal',
+            },
+            body: JSON.stringify({ name, author, tags, icons: uploadedPaths }),
+          }
+        );
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(`Metadata save failed: ${text}`);
+        }
+      } catch (e) {
+        showAlert(e.message);
+        publishBtn.disabled = false;
+        publishBtn.innerHTML = publishBtn._label;
+        progress.style.display = 'none';
+        return;
+      }
+
+      progressFill.style.width = '100%';
+      progressLabel.textContent = 'Done!';
+
+      showAlert(`✅ "${name}" published successfully! It will appear in the marketplace shortly.`, 'success');
+      publishBtn.innerHTML = '✓ Published';
+
+      // Clear form
+      selectedFiles = [];
+      renderPreviews();
+      document.getElementById('pack-name').value = '';
+      document.getElementById('pack-tags').value = '';
+    });
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // ── Init ────────────────────────────────────────────────────────────────
+    initPage();
+  </script>
+</body>
+</html>
