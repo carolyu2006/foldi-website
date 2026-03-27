@@ -1,0 +1,335 @@
+.publish-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 96px 40px 80px;
+}
+
+.publish-header { margin-bottom: 36px; }
+
+.publish-header h1 {
+  font-family: "Gilda Display", serif;
+  font-weight: 400;
+  font-size: 35px;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.publish-header p {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+/* ── Auth gate ── */
+.auth-gate {
+  background: white;
+  border-radius: var(--radius);
+  padding: 56px 40px;
+  text-align: center;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.auth-gate h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.auth-gate p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+/* ── Form card ── */
+.publish-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 36px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.form-section { margin-bottom: 28px; }
+
+.form-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 0.5px solid rgba(0,0,0,0.06);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form-group { margin-bottom: 16px; }
+.form-group:last-child { margin-bottom: 0; }
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  font-size: 15px;
+  font-family: var(--font);
+  color: var(--text);
+  background: white;
+  transition: border-color 0.18s;
+  outline: none;
+}
+
+.form-input:focus { border-color: var(--text); }
+.form-input::placeholder { color: #C7C7CC; }
+
+.form-hint {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+/* ── Drop zone ── */
+.drop-zone {
+  border: 2px dashed rgba(0,0,0,0.12);
+  border-radius: var(--radius-sm);
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.18s var(--ease);
+  background: rgba(0,0,0,0.015);
+  position: relative;
+}
+
+.drop-zone:hover,
+.drop-zone.drag-over {
+  border-color: var(--text);
+  background: rgba(0,0,0,0.03);
+}
+
+.drop-zone input[type=file] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.drop-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.drop-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ── File preview ── */
+.file-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.file-preview-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.file-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.file-preview-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  background: rgba(0,0,0,0.55);
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.file-preview-item:hover .file-preview-remove { opacity: 1; }
+
+.file-count-badge {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+
+/* ── Progress ── */
+.upload-progress { margin-top: 20px; }
+
+.progress-bar-wrap {
+  height: 6px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--text);
+  border-radius: 3px;
+  transition: width 0.3s var(--ease);
+}
+
+.progress-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ── Alert ── */
+.form-alert {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  line-height: 1.45;
+  display: none;
+}
+
+.form-alert.error {
+  background: #FEF2F2;
+  color: #B91C1C;
+  border: 1px solid rgba(185,28,28,0.15);
+  display: block;
+}
+
+.form-alert.success {
+  background: #F0FDF4;
+  color: #166534;
+  border: 1px solid rgba(22,101,52,0.15);
+  display: block;
+}
+
+/* ── Actions ── */
+.publish-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 0.5px solid rgba(0,0,0,0.06);
+}
+
+.btn-cancel {
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  background: white;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+
+.btn-cancel:hover {
+  border-color: rgba(0,0,0,0.22);
+  color: var(--text);
+}
+
+.btn-publish {
+  padding: 11px 26px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  border: none;
+  background: var(--text);
+  color: white;
+  transition: opacity 0.18s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-publish:hover { opacity: 0.85; }
+.btn-publish:disabled { opacity: 0.4; cursor: default; }
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── User info bar ── */
+.user-info-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(0,0,0,0.03);
+  border-radius: var(--radius-xs);
+  margin-bottom: 28px;
+  font-size: 14px;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--text);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-info-name { font-weight: 600; }
+.user-info-email { font-size: 12px; color: var(--text-secondary); }
+
+.user-info-right {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.user-info-right a { color: var(--text); font-weight: 500; }
+
+@media (max-width: 640px) {
+  .publish-page { padding: 88px 20px 60px; }
+  .form-row { grid-template-columns: 1fr; }
+  .publish-card { padding: 24px 20px; }
+}

@@ -3,230 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In — Foldi</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="icon" type="image/png" href="../public/logo-small.png">
-  <style>
-    .auth-page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 24px 40px;
-      background: var(--bg);
-    }
-
-    .auth-card {
-      width: 100%;
-      max-width: 420px;
-      background: white;
-      border-radius: var(--radius);
-      padding: 40px;
-      box-shadow:
-        0 4px 24px -4px rgba(0,0,0,0.08),
-        0 0 0 0.5px rgba(0,0,0,0.06);
-    }
-
-    .auth-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      margin-bottom: 28px;
-    }
-
-    .auth-logo img { height: 28px; }
-
-    .auth-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background: rgba(0,0,0,0.04);
-      border-radius: 10px;
-      padding: 4px;
-      margin-bottom: 28px;
-    }
-
-    .auth-tab {
-      padding: 8px;
-      border-radius: 7px;
-      text-align: center;
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.18s var(--ease);
-      user-select: none;
-    }
-
-    .auth-tab.active {
-      background: white;
-      color: var(--text);
-      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-    }
-
-    .auth-title {
-      font-size: 1.45rem;
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      margin-bottom: 6px;
-    }
-
-    .auth-subtitle {
-      font-size: 0.88rem;
-      color: var(--text-secondary);
-      margin-bottom: 28px;
-      line-height: 1.5;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 11px 14px;
-      border-radius: 10px;
-      border: 1.5px solid rgba(0,0,0,0.1);
-      font-size: 0.95rem;
-      font-family: var(--font);
-      color: var(--text);
-      background: white;
-      transition: border-color 0.18s;
-      outline: none;
-    }
-
-    .form-input:focus {
-      border-color: #942A2A;
-    }
-
-    .form-input::placeholder {
-      color: #C7C7CC;
-    }
-
-    .form-hint {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      margin-top: 5px;
-      line-height: 1.4;
-    }
-
-    .auth-submit {
-      width: 100%;
-      padding: 13px;
-      border-radius: 10px;
-      background: var(--text);
-      color: white;
-      font-size: 0.95rem;
-      font-weight: 600;
-      font-family: var(--font);
-      border: none;
-      cursor: pointer;
-      transition: opacity 0.18s;
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .auth-submit:hover { opacity: 0.85; }
-    .auth-submit:disabled { opacity: 0.45; cursor: default; }
-
-    .auth-divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 20px 0;
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-    }
-
-    .auth-divider::before,
-    .auth-divider::after {
-      content: '';
-      flex: 1;
-      height: 0.5px;
-      background: rgba(0,0,0,0.08);
-    }
-
-    .auth-alert {
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      margin-bottom: 16px;
-      line-height: 1.45;
-    }
-
-    .auth-alert.error {
-      background: #FEF2F2;
-      color: #B91C1C;
-      border: 1px solid rgba(185, 28, 28, 0.15);
-    }
-
-    .auth-alert.success {
-      background: #F0FDF4;
-      color: #166534;
-      border: 1px solid rgba(22, 101, 52, 0.15);
-    }
-
-    .auth-footer-note {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      margin-top: 20px;
-    }
-
-    .auth-footer-note a {
-      color: #942A2A;
-      font-weight: 500;
-    }
-
-    .spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* confirmation screen */
-    .auth-confirm {
-      text-align: center;
-      padding: 20px 0;
-    }
-
-    .auth-confirm-icon {
-      font-size: 3rem;
-      margin-bottom: 16px;
-    }
-
-    .auth-confirm-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 10px;
-    }
-
-    .auth-confirm-sub {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-  </style>
+  <title>Foldi</title>
+  <link rel="icon" type="image/png" href="../public/images/favicon.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/auth.css">
 </head>
 <body>
 
@@ -234,46 +14,48 @@
   <nav class="nav">
     <div class="nav-inner">
       <a href="../index.html" class="nav-logo">
-        <img src="../public/logo.png" alt="Foldi" class="nav-icon">
-        <span class="nav-wordmark">Foldi</span>
+        <img src="../public/images/nav-logo.png" alt="Foldi" class="nav-icon">
       </a>
-      <div class="nav-links" id="nav-auth">
-        <!-- populated by supabase-client.js -->
+      <div class="nav-links" style="position:relative">
+        <a href="marketplace.html">Gallery</a>
+        <a href="creators.html">Creators</a>
+        <a href="../index.html#download">Download App</a>
+        <a href="auth.html" class="nav-cta">Join Foldi</a>
       </div>
     </div>
   </nav>
 
-  <main class="auth-page">
+  <main class="main-section auth-page">
     <div class="auth-card">
       <div class="auth-logo">
-        <img src="../public/logo.png" alt="Foldi">
+        <img src="../public/images/logo.png" alt="Foldi">
         <span>Foldi</span>
       </div>
 
       <!-- Tab toggle -->
       <div class="auth-tabs" id="auth-tabs">
-        <div class="auth-tab active" data-tab="signin">Sign In</div>
+        <div class="auth-tab active" data-tab="login">Log In</div>
         <div class="auth-tab" data-tab="signup">Sign Up</div>
       </div>
 
       <!-- Alert -->
       <div id="auth-alert" style="display:none"></div>
 
-      <!-- Sign In form -->
-      <div id="signin-form">
+      <!-- Log In form -->
+      <div id="login-form">
         <h1 class="auth-title">Welcome back</h1>
-        <p class="auth-subtitle">Sign in to publish and manage your icon packs.</p>
+        <p class="auth-subtitle">Log in to publish and manage your icon packs.</p>
 
         <div class="form-group">
-          <label class="form-label" for="si-email">Email</label>
-          <input class="form-input" type="email" id="si-email" placeholder="you@example.com" autocomplete="email">
+          <label class="form-label" for="si-email">Email or Username</label>
+          <input class="form-input" type="text" id="si-email" placeholder="you@example.com or yourname" autocomplete="email" spellcheck="false" autocapitalize="none">
         </div>
         <div class="form-group">
           <label class="form-label" for="si-password">Password</label>
           <input class="form-input" type="password" id="si-password" placeholder="••••••••" autocomplete="current-password">
         </div>
 
-        <button class="auth-submit" id="si-submit">Sign In</button>
+        <button class="auth-submit" id="si-submit">Log In</button>
       </div>
 
       <!-- Sign Up form -->
@@ -282,10 +64,10 @@
         <p class="auth-subtitle">Create a free account to publish and manage your icon packs.</p>
 
         <div class="form-group">
-          <label class="form-label" for="su-username">Account Name</label>
-          <input class="form-input" type="text" id="su-username" placeholder="e.g. caroldesigns" autocomplete="username"
+          <label class="form-label" for="su-username">Username / Account Name <span style="color:var(--text-secondary);font-weight:400">(optional)</span></label>
+          <input class="form-input" type="text" id="su-username" placeholder="Leave blank to use your email" autocomplete="username"
                  spellcheck="false" autocapitalize="none">
-          <p class="form-hint">Letters, numbers, and underscores only. Shown publicly on your profile.</p>
+          <p class="form-hint">Letters, numbers, and underscores only. Defaults to your email if left blank.</p>
         </div>
         <div class="form-group">
           <label class="form-label" for="su-email">Email</label>
@@ -306,9 +88,11 @@
       <!-- Email confirmation screen (shown after signup) -->
       <div id="confirm-screen" style="display:none">
         <div class="auth-confirm">
-          <div class="auth-confirm-icon">📬</div>
+          <div class="auth-confirm-icon" style="width:56px;height:56px;border-radius:50%;background:rgba(0,0,0,0.05);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="18" height="13" rx="2" stroke="#6B6B6B" stroke-width="1.5"/><path d="M2 8l9 6 9-6" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
           <div class="auth-confirm-title">Check your email</div>
-          <p class="auth-confirm-sub">We sent a confirmation link to <strong id="confirm-email"></strong>.<br>Click it to activate your account, then come back to sign in.</p>
+          <p class="auth-confirm-sub">We sent a confirmation link to <strong id="confirm-email"></strong>.<br>Click it to activate your account, then come back to log in.</p>
         </div>
       </div>
 
@@ -323,14 +107,14 @@
   <script>
     // ── Tab init ────────────────────────────────────────────────────────────
     const params = new URLSearchParams(location.search);
-    let currentTab = params.get('tab') === 'signup' ? 'signup' : 'signin';
+    let currentTab = params.get('tab') === 'signup' ? 'signup' : 'login';
 
     function switchTab(tab) {
       currentTab = tab;
       document.querySelectorAll('.auth-tab').forEach(t =>
         t.classList.toggle('active', t.dataset.tab === tab)
       );
-      document.getElementById('signin-form').style.display   = tab === 'signin'  ? '' : 'none';
+      document.getElementById('login-form').style.display   = tab === 'login'  ? '' : 'none';
       document.getElementById('signup-form').style.display   = tab === 'signup'  ? '' : 'none';
       document.getElementById('confirm-screen').style.display = 'none';
       document.getElementById('auth-switch-note').style.display = '';
@@ -338,14 +122,14 @@
 
       const note = document.getElementById('auth-switch-note');
       const link = document.getElementById('switch-to-signup');
-      if (tab === 'signin') {
+      if (tab === 'login') {
         note.innerHTML = `Don't have an account? <a href="#" id="switch-to-signup">Sign up free</a>`;
       } else {
-        note.innerHTML = `Already have an account? <a href="#" id="switch-to-signup">Sign in</a>`;
+        note.innerHTML = `Already have an account? <a href="#" id="switch-to-signup">Log in</a>`;
       }
       document.getElementById('switch-to-signup').addEventListener('click', (e) => {
         e.preventDefault();
-        switchTab(currentTab === 'signin' ? 'signup' : 'signin');
+        switchTab(currentTab === 'login' ? 'signup' : 'login');
       });
     }
 
@@ -354,7 +138,7 @@
     );
     document.getElementById('switch-to-signup').addEventListener('click', (e) => {
       e.preventDefault();
-      switchTab(currentTab === 'signin' ? 'signup' : 'signin');
+      switchTab(currentTab === 'login' ? 'signup' : 'login');
     });
 
     switchTab(currentTab);
@@ -383,19 +167,35 @@
     // ── Redirect target ─────────────────────────────────────────────────────
     const redirect = params.get('redirect') || 'marketplace.html';
 
-    // ── Sign In ─────────────────────────────────────────────────────────────
+    // ── Log In ─────────────────────────────────────────────────────────────
     const siBtn = document.getElementById('si-submit');
-    siBtn._label = 'Sign In';
+    siBtn._label = 'Log In';
 
     siBtn.addEventListener('click', async () => {
       clearAlert();
-      const email    = document.getElementById('si-email').value.trim();
+      let identifier = document.getElementById('si-email').value.trim();
       const password = document.getElementById('si-password').value;
 
-      if (!email || !password) { showAlert('Please fill in all fields.'); return; }
+      if (!identifier || !password) { showAlert('Please fill in all fields.'); return; }
 
       setLoading(siBtn, true);
-      const { error } = await sb.auth.signInWithPassword({ email, password });
+
+      // If not an email, look up the email by username
+      if (!identifier.includes('@')) {
+        const { data, error: lookupError } = await sb
+          .from('profiles')
+          .select('email')
+          .eq('username', identifier)
+          .single();
+        if (lookupError || !data) {
+          setLoading(siBtn, false);
+          showAlert('No account found with that username.');
+          return;
+        }
+        identifier = data.email;
+      }
+
+      const { error } = await sb.auth.signInWithPassword({ email: identifier, password });
       setLoading(siBtn, false);
 
       if (error) { showAlert(error.message); return; }
@@ -412,12 +212,13 @@
 
     suBtn.addEventListener('click', async () => {
       clearAlert();
-      const username = document.getElementById('su-username').value.trim();
       const email    = document.getElementById('su-email').value.trim();
       const password = document.getElementById('su-password').value;
       const confirm  = document.getElementById('su-confirm').value;
+      const rawUsername = document.getElementById('su-username').value.trim();
+      const username = rawUsername || email.split('@')[0].replace(/[^a-zA-Z0-9_]/g, '_');
 
-      if (!username || !email || !password || !confirm) {
+      if (!email || !password || !confirm) {
         showAlert('Please fill in all fields.'); return;
       }
       if (!/^[a-zA-Z0-9_]+$/.test(username)) {
@@ -435,13 +236,16 @@
         email,
         password,
         options: {
-          data: { username },
+          // No username stored yet — saved to localStorage and written after confirmation
           emailRedirectTo: window.location.origin + '/html/auth.html?confirmed=1'
         }
       });
       setLoading(suBtn, false);
 
       if (error) { showAlert(error.message); return; }
+
+      // Hold username locally until email is confirmed
+      localStorage.setItem('foldi_pending_username', username);
 
       // Show email confirmation screen
       document.getElementById('signup-form').style.display    = 'none';
@@ -459,8 +263,14 @@
     // Supabase appends #access_token=... after the user clicks the email link.
     // The JS client picks this up automatically; we just need to detect it and
     // show a success message then redirect.
-    sb.auth.onAuthStateChange((event) => {
+    sb.auth.onAuthStateChange(async (event) => {
       if (event === 'SIGNED_IN' && params.get('confirmed') === '1') {
+        // Write username to Supabase now that email is confirmed
+        const pendingUsername = localStorage.getItem('foldi_pending_username');
+        if (pendingUsername) {
+          await sb.auth.updateUser({ data: { username: pendingUsername } });
+          localStorage.removeItem('foldi_pending_username');
+        }
         showAlert('Email confirmed! Signing you in…', 'success');
         setTimeout(() => { window.location.href = redirect; }, 1200);
       }

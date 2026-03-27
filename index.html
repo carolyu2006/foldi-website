@@ -1,365 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Foldi — Beautiful Folder Icons for macOS</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/png" href="public/logo-small.png">
+  <title>Foldi</title>
+  <link rel="icon" type="image/png" href="public/images/favicon.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/index.css">
 </head>
+
 <body>
 
   <!-- Nav -->
   <nav class="nav">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
-        <img src="public/logo.png" alt="Foldi" class="nav-icon">
-        <span class="nav-wordmark">Foldi</span>
+        <img src="public/images/nav-logo.png" alt="Foldi" class="nav-icon">
       </a>
       <div class="nav-links" style="position:relative">
-        <a href="#features">Features</a>
-        <a href="html/marketplace.html">Marketplace</a>
-        <div id="nav-auth" style="display:contents"></div>
-        <a href="#download" class="nav-cta">Download</a>
+        <a href="html/marketplace.html">Gallery</a>
+        <a href="html/creators.html">Creators</a>
+        <a href="#download">Download App</a>
+        <a href="html/auth.html" class="nav-cta">Join Foldi</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-content">
-      <p class="hero-badge">🍎 Native macOS App</p>
-      <h1 class="hero-title">
-        Your folders,<br>
-        <span class="gradient-text">beautifully yours.</span>
-      </h1>
-      <p class="hero-subtitle">
-        Create stunning custom folder icons with colors, emoji, text, and AI-generated art. Make your Mac truly feel like home. 🏠
-      </p>
-      <div class="hero-actions">
-        <a href="#download" class="btn btn-primary">
-          <span>⬇️</span> Download for Mac
-        </a>
-        <a href="#features" class="btn btn-ghost">
-          See Features <span>→</span>
-        </a>
-      </div>
-    </div>
+  <main class="main-section">
+    <div class="index-content">
 
-    <!-- Hero folder previews — absolute positioned on sides -->
-    <div class="preview-card pc-left pc-l1"><img src="" alt="Folder preview" draggable="false"></div>
-    <div class="preview-card pc-left pc-l2"><img src="" alt="Folder preview" draggable="false"></div>
-    <div class="preview-card pc-left pc-l3"><img src="" alt="Folder preview" draggable="false"></div>
-    <div class="preview-card pc-right pc-r1"><img src="" alt="Folder preview" draggable="false"></div>
-    <div class="preview-card pc-right pc-r2"><img src="" alt="Folder preview" draggable="false"></div>
-    <div class="preview-card pc-right pc-r3"><img src="" alt="Folder preview" draggable="false"></div>
-  </section>
+    <!-- Section 1: Hero -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            Folders<br><span style="color: var(--primary)">Reimagined as Art</span>
+          </h1>
+          <p class="hero-subtitle">
+            A creative platform where folders become canvases — bringing creativity and design into every corner of your computer.
+          </p>
 
-  <!-- Features -->
-  <section class="features" id="features">
-    <div class="section-header">
-      <p class="section-label">✨ Features</p>
-      <h2 class="section-title">Five ways to make<br><span class="gradient-text">every folder yours.</span></h2>
-    </div>
-
-    <div class="features-list">
-
-      <!-- Feature 1: Drag / Select -->
-      <div class="feature-row">
-        <div class="feature-visual" style="--card-bg: linear-gradient(145deg, #EEF2FF, #E0E7FF);">
-          <div class="feature-illustration drag-illustration">
-            <div class="drag-source">
-              <div class="drag-finder-icon">📂</div>
-              <div class="drag-finder-label">Projects</div>
-            </div>
-            <div class="drag-arrow">
-              <svg width="80" height="24" viewBox="0 0 80 24" fill="none">
-                <path d="M0 12h72m0 0l-8-8m8 8l-8 8" stroke="#818CF8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span class="drag-or">or select</span>
-            </div>
-            <div class="drag-target">
-              <div class="drag-app-icon">📁✨</div>
-              <div class="drag-app-label">Foldi</div>
-            </div>
-          </div>
         </div>
-        <div class="feature-text">
-          <div class="feature-number">01</div>
-          <h3 class="feature-title">Drag & Drop or Select 📂</h3>
-          <p class="feature-desc">Just drag any folder from Finder straight into Foldi — or use the file picker to browse. It's that simple to get started. No setup, no config, no fuss.</p>
-          <div class="feature-highlights">
-            <span>🖱️ Drag from Finder</span>
-            <span>📁 File picker</span>
-            <span>⚡ Instant start</span>
+        <div class="hero-visual">
+          <div class="hero-placeholder">
+            <span>Preview Coming Soon</span>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Feature 2: Customize -->
-      <div class="feature-row reverse">
-        <div class="feature-visual" style="--card-bg: linear-gradient(145deg, #FDF2F8, #FCE7F3);">
-          <div class="feature-illustration customize-illustration">
-            <div class="customize-preview">
-              <div class="customize-folder" style="--accent: #EC4899;">
-                <div class="customize-folder-body">
-                  <span>🎵</span>
-                </div>
-              </div>
-            </div>
-            <div class="customize-controls">
-              <div class="ctrl-row">
-                <div class="color-dots">
-                  <span class="cd" style="--c:#FF6B6B"></span>
-                  <span class="cd active" style="--c:#EC4899"></span>
-                  <span class="cd" style="--c:#A855F7"></span>
-                  <span class="cd" style="--c:#3B82F6"></span>
-                  <span class="cd" style="--c:#10B981"></span>
-                  <span class="cd" style="--c:#F59E0B"></span>
-                </div>
-              </div>
-              <div class="ctrl-row">
-                <span class="ctrl-label">Emoji</span>
-                <div class="emoji-options">
-                  <span class="eo">🎵</span>
-                  <span class="eo">🎸</span>
-                  <span class="eo">🎧</span>
-                  <span class="eo">🎤</span>
-                </div>
-              </div>
-              <div class="ctrl-row">
-                <span class="ctrl-label">Size</span>
-                <div class="ctrl-slider"><div class="ctrl-slider-fill" style="width:65%"></div><div class="ctrl-slider-thumb" style="left:65%"></div></div>
-              </div>
-            </div>
-          </div>
+    <!-- Section 2: Create Freely -->
+    <section class="section-create" id="create">
+      <div class="section-intro">
+        <p class="section-label">Customization</p>
+        <h2 class="section-title">Create Freely</h2>
+        <p class="section-subtitle">Customize folders with colors, text, emoji, images, and layouts — all in a simple visual editor.</p>
+      </div>
+      <div class="create-visual">
+        <div class="section-placeholder">
+          <span>Editor Preview Coming Soon</span>
         </div>
-        <div class="feature-text">
-          <div class="feature-number">02</div>
-          <h3 class="feature-title">Customize Your Folder 🎨</h3>
-          <p class="feature-desc">Pick from 40+ color presets or use a custom color picker. Add emoji, SF Symbols, or your own images. Layer text labels with full control over font, size, weight, and position. Mix and match until it's perfect.</p>
-          <div class="feature-highlights">
-            <span>🌈 40+ colors</span>
-            <span>😀 Emoji & icons</span>
-            <span>🔤 Text overlays</span>
-            <span>🪟 Glass effects</span>
+      </div>
+    </section>
+
+    <!-- Section 3: Explore the Gallery -->
+    <section class="section-gallery" id="gallery">
+      <div class="section-intro">
+        <p class="section-label">Community</p>
+        <h2 class="section-title">Explore the Gallery</h2>
+        <p class="section-subtitle">Discover unique folder packs created by designers from around the world.</p>
+      </div>
+      <div class="gallery-visual">
+        <div class="section-placeholder">
+          <span>Gallery Preview Coming Soon</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Become a Creator -->
+    <section class="section-creator">
+      <div class="creator-inner">
+        <div class="creator-text">
+          <p class="section-label">For Designers</p>
+          <h2 class="section-title">Become a Creator</h2>
+          <p class="section-subtitle">Publish your own designs, share them with the community, and earn from your work.</p>
+          <a href="html/publish.html" class="btn btn-primary">Start Publishing</a>
+        </div>
+        <div class="creator-visual">
+          <div class="section-placeholder">
+            <span>Creator Dashboard Coming Soon</span>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Feature 3: Designer Presets -->
-      <div class="feature-row">
-        <div class="feature-visual" style="--card-bg: linear-gradient(145deg, #ECFDF5, #D1FAE5);">
-          <div class="feature-illustration designs-illustration">
-            <div class="design-grid">
-              <div class="design-thumb dt1">
-                <span>👾</span>
-                <div class="design-style">Pixel</div>
-              </div>
-              <div class="design-thumb dt2">
-                <span>🎨</span>
-                <div class="design-style">Watercolor</div>
-              </div>
-              <div class="design-thumb dt3 dt-featured">
-                <span>💎</span>
-                <div class="design-style">Glass</div>
-              </div>
-              <div class="design-thumb dt4">
-                <span>⬜</span>
-                <div class="design-style">Minimal</div>
-              </div>
-              <div class="design-thumb dt5">
-                <span>🌸</span>
-                <div class="design-style">Soft</div>
-              </div>
-              <div class="design-thumb dt6">
-                <span>🔥</span>
-                <div class="design-style">Bold</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="feature-text">
-          <div class="feature-number">03</div>
-          <h3 class="feature-title">Browse Designer Presets 🎭</h3>
-          <p class="feature-desc">Explore a curated collection of icon designs crafted by artists and designers. Pixel art, watercolor, glass morphism, minimalist — find your style and apply it in one click.</p>
-          <div class="feature-highlights">
-            <span>🖼️ Pre-made packs</span>
-            <span>👆 One-click apply</span>
-            <span>🎯 Multiple styles</span>
-          </div>
-        </div>
-      </div>
+    <!-- Section 5: Download Foldi -->
+    <section class="cta" id="download">
+      <h2 class="cta-title">Download Foldi</h2>
+      <p class="cta-subtitle">Bring creativity to your Mac and make your folders uniquely yours.</p>
+      <a href="#" class="btn btn-primary btn-large">Download for macOS</a>
+      <p class="cta-req">Requires macOS 26+ &middot; Apple Silicon &amp; Intel</p>
+    </section>
 
-      <!-- Feature 4: History -->
-      <div class="feature-row reverse">
-        <div class="feature-visual" style="--card-bg: linear-gradient(145deg, #FFF7ED, #FFEDD5);">
-          <div class="feature-illustration history-illustration">
-            <div class="history-grid">
-              <div class="history-item hi-1">
-                <div class="hi-folder" style="--c:#A855F7">🚀</div>
-                <span class="hi-label">Projects</span>
-                <span class="hi-date">Today</span>
-              </div>
-              <div class="history-item hi-2">
-                <div class="hi-folder" style="--c:#3B82F6">📐</div>
-                <span class="hi-label">Design</span>
-                <span class="hi-date">Yesterday</span>
-              </div>
-              <div class="history-item hi-3">
-                <div class="hi-folder" style="--c:#EC4899">🎵</div>
-                <span class="hi-label">Music</span>
-                <span class="hi-date">Mar 12</span>
-              </div>
-              <div class="history-item hi-4">
-                <div class="hi-folder" style="--c:#10B981">💻</div>
-                <span class="hi-label">Code</span>
-                <span class="hi-date">Mar 10</span>
-              </div>
-            </div>
-            <div class="history-apply-btn">↩️ Apply</div>
-          </div>
-        </div>
-        <div class="feature-text">
-          <div class="feature-number">04</div>
-          <h3 class="feature-title">Your History, Always Saved 📚</h3>
-          <p class="feature-desc">Every icon you create is saved to your personal collection. Browse your history, organize by project, and reapply any previous design with a single click. Never lose a creation again.</p>
-          <div class="feature-highlights">
-            <span>🗃️ Auto-saved</span>
-            <span>↩️ One-click reapply</span>
-            <span>📂 Organize by project</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Feature 5: AI Coming Soon -->
-      <div class="feature-row feature-row-coming-soon">
-        <div class="feature-visual" style="--card-bg: linear-gradient(145deg, #F5F3FF, #EDE9FE);">
-          <div class="feature-illustration ai-illustration">
-            <div class="ai-prompt-box">
-              <div class="ai-input">
-                <span class="ai-cursor">|</span>
-                <span class="ai-typed">a cozy pixel art folder with warm lighting...</span>
-              </div>
-            </div>
-            <div class="ai-generating">
-              <div class="ai-sparkles">
-                <span>✨</span><span>🪄</span><span>✨</span>
-              </div>
-              <div class="ai-progress">
-                <div class="ai-progress-fill"></div>
-              </div>
-              <span class="ai-gen-label">Generating with AI...</span>
-            </div>
-            <div class="ai-results">
-              <div class="ai-result-thumb ar1">🏠</div>
-              <div class="ai-result-thumb ar2">🏡</div>
-              <div class="ai-result-thumb ar3 ar-pick">🏘️</div>
-            </div>
-          </div>
-        </div>
-        <div class="feature-text">
-          <div class="feature-number">05</div>
-          <div class="coming-soon-badge">🚧 Coming Soon</div>
-          <h3 class="feature-title">AI-Generated Folder Art 🤖</h3>
-          <p class="feature-desc">Describe what you want and let AI create it. Generate unique folder artwork in any style — pixel art, watercolor, 3D render, and more. Foldi will analyze your folder contents and suggest the perfect design automatically.</p>
-          <div class="feature-highlights">
-            <span>🖼️ Text to icon</span>
-            <span>🧠 Content-aware</span>
-            <span>🎨 Any style</span>
-          </div>
-          <div class="ai-providers-row">
-            <span class="provider-pill">OpenAI</span>
-            <span class="provider-pill">Gemini</span>
-            <span class="provider-pill">Ollama</span>
-            <span class="provider-pill">Anthropic</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Built for Mac -->
-  <section class="built-for-mac">
-    <div class="mac-content">
-      <div class="mac-text">
-        <p class="section-label">🍎 macOS Native</p>
-        <h2 class="section-title">Built for Mac.<br><span class="gradient-text">Through and through.</span></h2>
-        <ul class="mac-list">
-          <li><span>⚡</span> 100% SwiftUI — blazing fast, zero Electron</li>
-          <li><span>🪟</span> Liquid Glass design for macOS Tahoe</li>
-          <li><span>🔒</span> Fully sandboxed for App Store security</li>
-          <li><span>↩️</span> Non-destructive — always backs up your originals</li>
-        </ul>
-      </div>
-      <div class="mac-visual">
-        <div class="mac-window">
-          <div class="mac-titlebar">
-            <span class="mac-dot red"></span>
-            <span class="mac-dot yellow"></span>
-            <span class="mac-dot green"></span>
-          </div>
-          <div class="mac-body">
-            <div class="mac-sidebar">
-              <div class="mac-folder-row active"><span>📁</span> Projects</div>
-              <div class="mac-folder-row"><span>📁</span> Design</div>
-              <div class="mac-folder-row"><span>📁</span> Music</div>
-            </div>
-            <div class="mac-preview">
-              <div class="mac-preview-folder">🚀</div>
-              <span class="mac-preview-label">Projects</span>
-            </div>
-            <div class="mac-editor">
-              <div class="mac-tab-bar">
-                <span class="mac-tab active">Customize</span>
-                <span class="mac-tab">Designs</span>
-                <span class="mac-tab">History</span>
-              </div>
-              <div class="mac-controls">
-                <div class="mac-color-row">
-                  <span class="mc" style="background:#FF6B6B"></span>
-                  <span class="mc" style="background:#4ECDC4"></span>
-                  <span class="mc" style="background:#A855F7"></span>
-                  <span class="mc" style="background:#F59E0B"></span>
-                  <span class="mc" style="background:#3B82F6"></span>
-                  <span class="mc" style="background:#EC4899"></span>
-                </div>
-                <div class="mac-slider-row">
-                  <span class="mac-slider-label">Size</span>
-                  <div class="mac-slider"><div class="mac-slider-fill"></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta" id="download">
-    <div class="cta-emojis" aria-hidden="true">
-      <span>📁</span><span>🎨</span><span>✨</span><span>🪄</span><span>🚀</span><span>💜</span><span>🌈</span><span>⭐</span>
-    </div>
-    <h2 class="cta-title">Ready to make your<br>folders <span class="gradient-text">beautiful</span>?</h2>
-    <p class="cta-subtitle">Free to download. Works on macOS Tahoe and later.</p>
-    <a href="#" class="btn btn-primary btn-large">
-      <span>⬇️</span> Download Foldi
-    </a>
-    <p class="cta-req">Requires macOS 26+ · Apple Silicon & Intel</p>
-  </section>
+    </div><!-- /.index-content -->
+  </main>
 
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-logo">
-        <img src="public/logo.png" alt="Foldi" style="width: 24px; height: 24px;"> Foldi
-      </div>
-      <p class="footer-copy">© 2026 Foldi. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="html/marketplace.html">Marketplace</a>
-        <a href="https://github.com/carolyu2006/foldi">GitHub</a>
+      <a href="index.html" class="footer-logo">
+        <img src="public/images/nav-logo.png" alt="Foldi" class="footer-nav-icon">
+      </a>
+      <p class="footer-copy">&copy; 2026 Foldi. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="https://github.com/carolyu2006/foldi" class="footer-social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        </a>
       </div>
     </div>
   </footer>
@@ -368,19 +125,8 @@
   <script src="js/supabase-client.js"></script>
   <script src="js/script.js"></script>
   <script>
-    // Add nav avatar / dropdown styles to index page
-    document.head.insertAdjacentHTML('beforeend', `<style>
-      .nav-link-subtle{font-size:.85rem;font-weight:500;color:var(--text-secondary);transition:color .2s}
-      .nav-link-subtle:hover{color:var(--text)}
-      .nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--text);color:white;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
-      .nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:white;border-radius:12px;padding:12px;min-width:200px;box-shadow:0 8px 32px -4px rgba(0,0,0,.15),0 0 0 .5px rgba(0,0,0,.06);z-index:200;display:none}
-      .nav-dropdown.open{display:block}
-      .nav-dropdown-name{font-size:.88rem;font-weight:600}
-      .nav-dropdown-email{font-size:.78rem;color:var(--text-secondary);margin-top:2px}
-      .nav-dropdown-item{width:100%;text-align:left;padding:7px 4px;font-size:.85rem;color:var(--text-secondary);background:none;border:none;cursor:pointer;font-family:var(--font);border-radius:6px;transition:background .15s}
-      .nav-dropdown-item:hover{background:rgba(0,0,0,.04);color:var(--text)}
-    </style>`);
     initNavAuth();
   </script>
 </body>
+
 </html>

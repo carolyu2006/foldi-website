@@ -3,426 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Publish Design — Foldi</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="icon" type="image/png" href="../public/logo-small.png">
-  <style>
-    .publish-page {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 96px 40px 80px;
-    }
-
-    .publish-header {
-      margin-bottom: 36px;
-    }
-
-    .publish-header h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 6px;
-    }
-
-    .publish-header p {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-    }
-
-    /* ── Auth gate ───────────────────────────────── */
-    .auth-gate {
-      background: white;
-      border-radius: var(--radius);
-      padding: 56px 40px;
-      text-align: center;
-      border: 1px solid rgba(0,0,0,0.06);
-    }
-
-    .auth-gate-icon {
-      font-size: 3rem;
-      margin-bottom: 16px;
-    }
-
-    .auth-gate h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-
-    .auth-gate p {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      margin-bottom: 24px;
-      line-height: 1.6;
-    }
-
-    /* ── Form card ───────────────────────────────── */
-    .publish-card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 36px;
-      border: 1px solid rgba(0,0,0,0.06);
-    }
-
-    .form-section {
-      margin-bottom: 28px;
-    }
-
-    .form-section-title {
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-secondary);
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 0.5px solid rgba(0,0,0,0.06);
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group:last-child { margin-bottom: 0; }
-
-    .form-label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 11px 14px;
-      border-radius: 10px;
-      border: 1.5px solid rgba(0,0,0,0.1);
-      font-size: 0.92rem;
-      font-family: var(--font);
-      color: var(--text);
-      background: white;
-      transition: border-color 0.18s;
-      outline: none;
-    }
-
-    .form-input:focus { border-color: #942A2A; }
-    .form-input::placeholder { color: #C7C7CC; }
-
-    .form-hint {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      margin-top: 5px;
-      line-height: 1.4;
-    }
-
-    /* ── Drop zone ───────────────────────────────── */
-    .drop-zone {
-      border: 2px dashed rgba(0,0,0,0.12);
-      border-radius: var(--radius-sm);
-      padding: 40px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.18s var(--ease);
-      background: rgba(0,0,0,0.015);
-      position: relative;
-    }
-
-    .drop-zone:hover,
-    .drop-zone.drag-over {
-      border-color: #942A2A;
-      background: rgba(148, 42, 42, 0.03);
-    }
-
-    .drop-zone input[type=file] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    .drop-icon {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-
-    .drop-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .drop-sub {
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-    }
-
-    /* ── File preview grid ───────────────────────── */
-    .file-preview-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .file-preview-item {
-      position: relative;
-      aspect-ratio: 1;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid rgba(0,0,0,0.06);
-    }
-
-    .file-preview-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .file-preview-remove {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      width: 18px;
-      height: 18px;
-      background: rgba(0,0,0,0.55);
-      color: white;
-      border-radius: 50%;
-      font-size: 0.65rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.15s;
-    }
-
-    .file-preview-item:hover .file-preview-remove {
-      opacity: 1;
-    }
-
-    .file-count-badge {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-top: 8px;
-    }
-
-    /* ── Progress ────────────────────────────────── */
-    .upload-progress {
-      margin-top: 20px;
-    }
-
-    .progress-bar-wrap {
-      height: 6px;
-      background: rgba(0,0,0,0.06);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-bottom: 6px;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #942A2A, #B65A5D);
-      border-radius: 3px;
-      transition: width 0.3s var(--ease);
-    }
-
-    .progress-label {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-    }
-
-    /* ── Alert / status ──────────────────────────── */
-    .form-alert {
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      margin-bottom: 16px;
-      line-height: 1.45;
-      display: none;
-    }
-
-    .form-alert.error {
-      background: #FEF2F2;
-      color: #B91C1C;
-      border: 1px solid rgba(185, 28, 28, 0.15);
-      display: block;
-    }
-
-    .form-alert.success {
-      background: #F0FDF4;
-      color: #166534;
-      border: 1px solid rgba(22, 101, 52, 0.15);
-      display: block;
-    }
-
-    /* ── Submit button ───────────────────────────── */
-    .publish-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 28px;
-      padding-top: 20px;
-      border-top: 0.5px solid rgba(0,0,0,0.06);
-    }
-
-    .btn-cancel {
-      padding: 11px 22px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      font-family: var(--font);
-      cursor: pointer;
-      border: 1.5px solid rgba(0,0,0,0.1);
-      background: white;
-      color: var(--text-secondary);
-      transition: all 0.15s;
-    }
-
-    .btn-cancel:hover {
-      border-color: rgba(0,0,0,0.22);
-      color: var(--text);
-    }
-
-    .btn-publish {
-      padding: 11px 26px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      font-family: var(--font);
-      cursor: pointer;
-      border: none;
-      background: var(--text);
-      color: white;
-      transition: opacity 0.18s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-publish:hover { opacity: 0.85; }
-    .btn-publish:disabled { opacity: 0.4; cursor: default; }
-
-    .spinner {
-      width: 14px;
-      height: 14px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── User info bar ───────────────────────────── */
-    .user-info-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      background: rgba(0,0,0,0.03);
-      border-radius: var(--radius-xs);
-      margin-bottom: 28px;
-      font-size: 0.88rem;
-    }
-
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--text);
-      color: white;
-      font-size: 0.85rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .user-info-name { font-weight: 600; }
-    .user-info-email { font-size: 0.78rem; color: var(--text-secondary); }
-
-    .user-info-right {
-      margin-left: auto;
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-    }
-
-    .user-info-right a { color: #942A2A; }
-
-    /* ── Nav ─────────────────────────────────────── */
-    .nav-link-subtle {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      transition: color 0.2s;
-    }
-    .nav-link-subtle:hover { color: var(--text); }
-
-    .nav-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--text);
-      color: white;
-      font-size: 0.8rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .nav-dropdown {
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      background: white;
-      border-radius: 12px;
-      padding: 12px;
-      min-width: 200px;
-      box-shadow: 0 8px 32px -4px rgba(0,0,0,0.15), 0 0 0 0.5px rgba(0,0,0,0.06);
-      z-index: 200;
-      display: none;
-    }
-
-    .nav-dropdown.open { display: block; }
-    .nav-dropdown-name { font-size: 0.88rem; font-weight: 600; }
-    .nav-dropdown-email { font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px; }
-
-    .nav-dropdown-item {
-      width: 100%;
-      text-align: left;
-      padding: 7px 4px;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: var(--font);
-      border-radius: 6px;
-      transition: background 0.15s;
-    }
-
-    .nav-dropdown-item:hover { background: rgba(0,0,0,0.04); color: var(--text); }
-    .nav-links { position: relative; }
-
-    @media (max-width: 640px) {
-      .publish-page { padding: 88px 20px 60px; }
-      .form-row { grid-template-columns: 1fr; }
-      .publish-card { padding: 24px 20px; }
-    }
-  </style>
+  <title>Foldi</title>
+  <link rel="icon" type="image/png" href="../public/images/favicon.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/publish.css">
 </head>
 <body>
 
@@ -430,30 +14,33 @@
   <nav class="nav">
     <div class="nav-inner">
       <a href="../index.html" class="nav-logo">
-        <img src="../public/logo.png" alt="Foldi" class="nav-icon">
-        <span class="nav-wordmark">Foldi</span>
+        <img src="../public/images/nav-logo.png" alt="Foldi" class="nav-icon">
       </a>
-      <div class="nav-links">
-        <a href="marketplace.html" class="nav-link-subtle">Marketplace</a>
-        <div id="nav-auth" style="display:contents"></div>
+      <div class="nav-links" style="position:relative">
+        <a href="marketplace.html">Gallery</a>
+        <a href="creators.html">Creators</a>
+        <a href="../index.html#download">Download App</a>
+        <a href="auth.html" class="nav-cta">Join Foldi</a>
       </div>
     </div>
   </nav>
 
-  <main class="publish-page">
+  <main class="main-section publish-page">
     <div class="publish-header">
-      <p class="section-label">🎨 Designer Portal</p>
+      <p class="section-label">Designer Portal</p>
       <h1>Publish a Design Pack</h1>
       <p>Upload your icon pack to the Foldi marketplace and share it with the community.</p>
     </div>
 
     <!-- Auth gate (shown when not logged in) -->
     <div class="auth-gate" id="auth-gate">
-      <div class="auth-gate-icon">🔒</div>
-      <h2>Sign in to publish</h2>
+      <div class="auth-gate-icon" style="width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.05);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="#6B6B6B" stroke-width="1.5"/><path d="M7 9V6a3 3 0 016 0v3" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <h2>Log in to publish</h2>
       <p>You need a Foldi account to publish icon packs.<br>It's free and takes less than a minute.</p>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <a href="auth.html?tab=signin&redirect=publish.html" class="btn btn-ghost">Sign In</a>
+        <a href="auth.html?tab=login&redirect=publish.html" class="btn btn-ghost">Log In</a>
         <a href="auth.html?tab=signup&redirect=publish.html" class="btn btn-primary">Create Free Account</a>
       </div>
     </div>
@@ -470,17 +57,9 @@
         <!-- Pack info -->
         <div class="form-section">
           <div class="form-section-title">Pack Info</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="pack-name">Pack Name *</label>
-              <input class="form-input" type="text" id="pack-name" placeholder="e.g. Minimal Glass Icons">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="pack-author">Author Name</label>
-              <input class="form-input" type="text" id="pack-author" readonly
-                     style="background:rgba(0,0,0,0.03);cursor:default;">
-              <p class="form-hint">Set from your account username.</p>
-            </div>
+          <div class="form-group">
+            <label class="form-label" for="pack-name">Pack Name *</label>
+            <input class="form-input" type="text" id="pack-name" placeholder="e.g. Minimal Glass Icons">
           </div>
           <div class="form-group">
             <label class="form-label" for="pack-tags">Tags</label>
@@ -494,7 +73,9 @@
           <div class="form-section-title">Icons (PNG files)</div>
           <div class="drop-zone" id="drop-zone">
             <input type="file" id="file-input" accept="image/png" multiple>
-            <div class="drop-icon">🖼️</div>
+            <div class="drop-icon" style="margin-bottom:10px">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="18" rx="3" stroke="#9CA3AF" stroke-width="1.5"/><path d="M4 20l6-5 5 5 4-3 9 6" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="15" r="2" stroke="#9CA3AF" stroke-width="1.5"/></svg>
+            </div>
             <div class="drop-title">Drop PNG files here</div>
             <div class="drop-sub">or click to browse — 512×512 px recommended</div>
           </div>
@@ -522,17 +103,18 @@
       </div>
     </div>
   </main>
-
+  <!-- Footer -->
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-logo">
-        <img src="../public/logo.png" alt="Foldi" style="width:24px;height:24px;"> Foldi
-      </div>
-      <p class="footer-copy">© 2026 Foldi. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="../index.html">Home</a>
-        <a href="marketplace.html">Marketplace</a>
+      <a href="../index.html" class="footer-logo">
+        <img src="../public/images/nav-logo.png" alt="Foldi" class="footer-nav-icon">
+      </a>
+      <p class="footer-copy">&copy; 2026 Foldi. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="https://github.com/carolyu2006/foldi" class="footer-social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        </a>
       </div>
     </div>
   </footer>
@@ -573,8 +155,6 @@
           window.location.reload();
         });
 
-        // Pre-fill author
-        document.getElementById('pack-author').value = name;
       }
 
       initNavAuth();
@@ -663,7 +243,6 @@
       clearAlert();
 
       const name    = document.getElementById('pack-name').value.trim();
-      const author  = document.getElementById('pack-author').value.trim();
       const tagsRaw = document.getElementById('pack-tags').value;
 
       if (!name)   { showAlert('Pack name is required.'); return; }
@@ -672,12 +251,13 @@
       // Get current session JWT
       const session = await getSession();
       if (!session) {
-        showAlert('Your session has expired. Please sign in again.');
-        window.location.href = 'auth.html?tab=signin&redirect=publish.html';
+        showAlert('Your session has expired. Please log in again.');
+        window.location.href = 'auth.html?tab=login&redirect=publish.html';
         return;
       }
       const accessToken = session.access_token;
       const userId      = session.user.id;
+      const author      = authorName(session.user);
 
       const tags = tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
       const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');

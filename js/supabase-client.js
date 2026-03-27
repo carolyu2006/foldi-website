@@ -21,7 +21,7 @@ async function getUser() {
 }
 
 function authorName(user) {
-  return user?.user_metadata?.username || user?.email?.split('@')[0] || '';
+  return user?.user_metadata?.display_name || user?.user_metadata?.username || user?.email?.split('@')[0] || '';
 }
 
 // ── Nav auth state ─────────────────────────────────────────────────────────
@@ -44,6 +44,7 @@ async function initNavAuth() {
         <div class="nav-dropdown-name">${name}</div>
         <div class="nav-dropdown-email">${session.user.email}</div>
         <hr style="border:none;border-top:0.5px solid rgba(0,0,0,0.08);margin:8px 0">
+        <a href="/html/account.html" class="nav-dropdown-item" style="display:block;text-decoration:none">Account Settings</a>
         <button class="nav-dropdown-item" id="nav-logout">Sign Out</button>
       </div>
     `;

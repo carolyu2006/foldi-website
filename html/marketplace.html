@@ -3,335 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marketplace — Foldi</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="icon" type="image/png" href="../public/logo-small.png">
-  <style>
-    /* ── Page layout ─────────────────────────────── */
-    .market-page {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 96px 40px 80px;
-    }
-
-    .market-header {
-      margin-bottom: 40px;
-    }
-
-    .market-header h1 {
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 8px;
-    }
-
-    .market-header p {
-      font-size: 1rem;
-      color: var(--text-secondary);
-    }
-
-    /* ── Filter bar ──────────────────────────────── */
-    .filter-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 36px;
-    }
-
-    .search-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 14px;
-      border-radius: 10px;
-      border: 1.5px solid rgba(0,0,0,0.1);
-      background: white;
-      flex: 1;
-      min-width: 200px;
-      max-width: 320px;
-    }
-
-    .search-box input {
-      border: none;
-      outline: none;
-      font-size: 0.9rem;
-      font-family: var(--font);
-      color: var(--text);
-      width: 100%;
-      background: transparent;
-    }
-
-    .search-box input::placeholder { color: #C7C7CC; }
-
-    .search-icon {
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      flex-shrink: 0;
-    }
-
-    .tag-filters {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      flex: 1;
-    }
-
-    .tag-pill {
-      padding: 6px 14px;
-      border-radius: 100px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      cursor: pointer;
-      border: 1.5px solid rgba(0,0,0,0.1);
-      color: var(--text-secondary);
-      background: white;
-      transition: all 0.15s var(--ease);
-      user-select: none;
-    }
-
-    .tag-pill:hover {
-      border-color: rgba(0,0,0,0.22);
-      color: var(--text);
-    }
-
-    .tag-pill.active {
-      background: var(--text);
-      color: white;
-      border-color: var(--text);
-    }
-
-    /* ── Pack grid ───────────────────────────────── */
-    .packs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .pack-card {
-      background: white;
-      border-radius: var(--radius-sm);
-      padding: 20px;
-      border: 1px solid rgba(0,0,0,0.06);
-      transition: box-shadow 0.2s var(--ease), transform 0.2s var(--ease);
-      cursor: default;
-    }
-
-    .pack-card:hover {
-      box-shadow: 0 8px 32px -8px rgba(0,0,0,0.1);
-      transform: translateY(-2px);
-    }
-
-    .pack-card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 14px;
-    }
-
-    .pack-name {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.015em;
-      margin-bottom: 2px;
-    }
-
-    .pack-author {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-    }
-
-    .pack-icon-count {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      background: rgba(0,0,0,0.04);
-      padding: 4px 10px;
-      border-radius: 100px;
-      flex-shrink: 0;
-    }
-
-    /* Icon strip */
-    .pack-icons {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .pack-icon-thumb {
-      width: 52px;
-      height: 52px;
-      border-radius: 8px;
-      object-fit: cover;
-      background: rgba(0,0,0,0.03);
-      border: 0.5px solid rgba(0,0,0,0.05);
-      transition: transform 0.15s;
-    }
-
-    .pack-icon-thumb:hover {
-      transform: scale(1.08);
-    }
-
-    .pack-icon-placeholder {
-      width: 52px;
-      height: 52px;
-      border-radius: 8px;
-      background: rgba(0,0,0,0.04);
-      border: 0.5px solid rgba(0,0,0,0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .pack-more-badge {
-      width: 52px;
-      height: 52px;
-      border-radius: 8px;
-      background: rgba(0,0,0,0.04);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-
-    /* Tags */
-    .pack-tags {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-    }
-
-    .pack-tag {
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      background: rgba(0,0,0,0.04);
-      padding: 3px 9px;
-      border-radius: 100px;
-    }
-
-    /* ── Empty / loading states ──────────────────── */
-    .market-loading {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      padding: 80px 20px;
-      color: var(--text-secondary);
-    }
-
-    .loading-spinner {
-      width: 32px;
-      height: 32px;
-      border: 3px solid rgba(0,0,0,0.08);
-      border-top-color: #942A2A;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .market-empty {
-      text-align: center;
-      padding: 80px 20px;
-      color: var(--text-secondary);
-    }
-
-    .market-empty .empty-icon {
-      font-size: 3rem;
-      margin-bottom: 12px;
-      opacity: 0.3;
-    }
-
-    .market-count {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      margin-bottom: 24px;
-    }
-
-    /* ── Nav additions ───────────────────────────── */
-    .nav-link-subtle {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      transition: color 0.2s;
-    }
-
-    .nav-link-subtle:hover { color: var(--text); }
-
-    .nav-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--text);
-      color: white;
-      font-size: 0.8rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .nav-dropdown {
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      background: white;
-      border-radius: 12px;
-      padding: 12px;
-      min-width: 200px;
-      box-shadow: 0 8px 32px -4px rgba(0,0,0,0.15), 0 0 0 0.5px rgba(0,0,0,0.06);
-      z-index: 200;
-      display: none;
-    }
-
-    .nav-dropdown.open { display: block; }
-
-    .nav-dropdown-name {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .nav-dropdown-email {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      margin-top: 2px;
-    }
-
-    .nav-dropdown-item {
-      width: 100%;
-      text-align: left;
-      padding: 7px 4px;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: var(--font);
-      border-radius: 6px;
-      transition: background 0.15s;
-    }
-
-    .nav-dropdown-item:hover {
-      background: rgba(0,0,0,0.04);
-      color: var(--text);
-    }
-
-    .nav-links { position: relative; }
-
-    @media (max-width: 768px) {
-      .market-page { padding: 88px 20px 60px; }
-      .packs-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+  <title>Foldi</title>
+  <link rel="icon" type="image/png" href="../public/images/favicon.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/marketplace.css">
 </head>
 <body>
 
@@ -339,27 +14,30 @@
   <nav class="nav">
     <div class="nav-inner">
       <a href="../index.html" class="nav-logo">
-        <img src="../public/logo.png" alt="Foldi" class="nav-icon">
-        <span class="nav-wordmark">Foldi</span>
+        <img src="../public/images/nav-logo.png" alt="Foldi" class="nav-icon">
       </a>
-      <div class="nav-links">
-        <a href="marketplace.html" style="color:var(--text);font-weight:600;font-size:0.85rem;">Marketplace</a>
-        <div id="nav-auth" style="display:contents"></div>
+      <div class="nav-links" style="position:relative">
+        <a href="marketplace.html">Gallery</a>
+        <a href="creators.html">Creators</a>
+        <a href="../index.html#download">Download App</a>
+        <a href="auth.html" class="nav-cta">Join Foldi</a>
       </div>
     </div>
   </nav>
 
-  <main class="market-page">
+  <main class="main-section market-page">
     <div class="market-header fade-in">
-      <p class="section-label">🛍️ Marketplace</p>
-      <h1>Browse icon packs by<br><span class="gradient-text">the community.</span></h1>
+      <p class="section-label">Marketplace</p>
+      <h1>Browse icon packs by<br>the community.</h1>
       <p>Curated packs made by designers — apply any icon to your folders in one click.</p>
     </div>
 
     <!-- Filter bar -->
     <div class="filter-bar fade-in" id="filter-bar">
       <div class="search-box">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#9CA3AF" stroke-width="1.5"/><path d="M10 10l2.5 2.5" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </span>
         <input type="text" id="search-input" placeholder="Search packs or tags…">
       </div>
       <div class="tag-filters" id="tag-filters">
@@ -378,18 +56,18 @@
       </div>
     </div>
   </main>
-
+  <!-- Footer -->
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-logo">
-        <img src="../public/logo.png" alt="Foldi" style="width:24px;height:24px;"> Foldi
-      </div>
-      <p class="footer-copy">© 2026 Foldi. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="../index.html">Home</a>
-        <a href="marketplace.html">Marketplace</a>
-        <a href="https://github.com/carolyu2006/foldi">GitHub</a>
+      <a href="../index.html" class="footer-logo">
+        <img src="../public/images/nav-logo.png" alt="Foldi" class="footer-nav-icon">
+      </a>
+      <p class="footer-copy">&copy; 2026 Foldi. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="https://github.com/carolyu2006/foldi" class="footer-social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        </a>
       </div>
     </div>
   </footer>
@@ -408,7 +86,7 @@
       } catch (e) {
         document.getElementById('packs-container').innerHTML = `
           <div class="market-empty">
-            <div class="empty-icon">📡</div>
+            <div class="empty-icon" style="width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.05);margin:0 auto 12px"></div>
             <p><strong>Could not load packs</strong></p>
             <p style="font-size:0.85rem;margin-top:6px">${e.message}</p>
           </div>`;
@@ -474,7 +152,7 @@
       if (filtered.length === 0) {
         container.innerHTML = `
           <div class="market-empty">
-            <div class="empty-icon">🔍</div>
+            <div class="empty-icon" style="width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.05);margin:0 auto 12px"></div>
             <p><strong>No packs match your filters</strong></p>
             <p style="font-size:0.85rem;margin-top:6px">Try a different search or tag.</p>
           </div>`;
